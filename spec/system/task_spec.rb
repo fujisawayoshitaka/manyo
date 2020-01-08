@@ -1,22 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe 'タスク管理機能', type: :system do
-  background do
+  #background do
     # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
-    FactoryBot.create(:task)
-    FactoryBot.create(:second_task)
-  end
+    #FactoryBot.create(:task)
+    #FactoryBot.create(:second_task)
+  #end
   before do
     # 「タスク一覧画面」や「タスク詳細画面」などそれぞれのテストケースで、before内のコードが実行される
     # 各テストで使用するタスクを1件作成する
     # 作成したタスクオブジェクトを各テストケースで呼び出せるようにインスタンス変数に代入
     @task = FactoryBot.create(:task, title: 'task')
+
   end
   describe 'タスク一覧画面' do
     context 'タスクを作成した場合' do
       it '作成済みのタスクが表示されること' do
       # テストで使用するためのタスクを作成
-      #task = FactoryBot.create(:task, title: 'task')
+      task = FactoryBot.create(:task, title: 'task')
       # タスク一覧ページに遷移
       visit tasks_path
       # visitした（遷移した）page（タスク一覧ページ）に「task」という文字列が
@@ -29,9 +30,13 @@ RSpec.describe 'タスク管理機能', type: :system do
       it 'タスクが作成日時の降順に並んでいること' do
         new_task = FactoryBot.create(:task, title: 'new_task')
         visit tasks_path
-        task_list = all('.task_row')
-        expect(task_list[0]).to have_content 'new_task'
-        expect(task_list[1]).to have_content 'task'
+        #task_list = all('.task_row')
+        #binding.irb
+        # byebug
+        # expect(task_list[0]).to have_content 'new_task'
+        # expect(task_list[1]).to have_content 'task'
+        expect(page).to have_text /.*new_task.*task.*/m
+
         # 省略
       end
     end
@@ -51,7 +56,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       fill_in 'task[content]', with: 'task'
       # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
       # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
-      click_button 'Create Task'
+      click_button '登録する'
       # clickで登録されたはずの情報が、タスク詳細ページに表示されているかを確認する
       # （タスクが登録されたらタスク詳細画面に遷移されるという前提）
       # 5.タスク詳細ページに、テストコードで作成したはずのデータ（記述）がhave_contentされているか（含まれているか）を確認（期待）するコードを書く
@@ -66,7 +71,7 @@ RSpec.describe 'タスク管理機能', type: :system do
          #task = FactoryBot.create(:task, title: 'task')
          visit tasks_path
          click_link 'Show'
-         expect(page).to have_content 'show'
+         expect(page).to have_content 'task'
        end
      end
   end
