@@ -5,6 +5,11 @@
 | name     | user_id      | title       |
 | email  | task_id    | content   |
 | password |    |        |
+#dbの構造テスト
+|  TH  |  TH  |
+| ---- | ---- |
+|  TD  |  TD  |
+|  TD  |  TD  |
 
 #Herokuのデプロイ手順 linux command
 - step1 Herokuにログイン、アプリ作成、precompile
