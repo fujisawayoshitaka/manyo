@@ -1,21 +1,24 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Tasks</h1>
+<%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
 
 <table>
   <thead>
     <tr>
       <th>Title</th>
       <th>Content</th>
+      <th>Deadline</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @tasks.each do |task| %>
-      <tr class = "task_row">
+      <tr>
         <td><%= task.title %></td>
         <td><%= task.content %></td>
+        <td><%= task.end_on %></td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
         <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
