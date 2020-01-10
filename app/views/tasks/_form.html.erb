@@ -11,6 +11,8 @@
     </div>
   <% end %>
 
+
+
   <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>
@@ -22,8 +24,13 @@
   </div>
 
   <div class="field">
-    <p>期限終了</p>
+    <%= form.label :end_on %>
     <%= form.date_field :end_on %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.select :status, ["未着手","着手","完了"] %>
   </div>
 
   <div class="actions">
