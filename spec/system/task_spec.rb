@@ -56,11 +56,16 @@ RSpec.describe 'タスク管理機能', type: :system do
       fill_in 'task[content]', with: 'task'
       # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
       # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
+      require "active_support/time"
+      time = Time.now
+
+      fill_in 'task[end_on]', with: time
+      byebug
       click_button '登録する'
       # clickで登録されたはずの情報が、タスク詳細ページに表示されているかを確認する
       # （タスクが登録されたらタスク詳細画面に遷移されるという前提）
       # 5.タスク詳細ページに、テストコードで作成したはずのデータ（記述）がhave_contentされているか（含まれているか）を確認（期待）するコードを書く
-      expect(page).to have_content 'task'
+      expect(page).to have_content 'task'&& time
       end
     end
   end
