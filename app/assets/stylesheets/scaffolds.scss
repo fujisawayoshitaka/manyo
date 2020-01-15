@@ -1,16 +1,18 @@
 body {
-  background-color: #fff;
+  background-color: skyblue;
   color: #333;
   margin: 33px;
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
+  text-align: center;
 }
 
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
+  text-align: center;
 }
 
 pre {
@@ -34,10 +36,12 @@ a {
 
 th {
   padding-bottom: 5px;
+  text-align: center;
 }
 
 td {
   padding: 0 5px 7px;
+  text-align: center;
 }
 
 div {
@@ -81,4 +85,21 @@ div {
 
 label {
   display: block;
+}
+
+div{
+        text-align:center;
+}
+
+table{
+        margin-left:auto;
+        margin-right:auto;
+}
+
+header{
+       background-color: darkblue;
+       color: white;
+       height: 100px;
+       text-align: center;
+       line-height: 80px;
 }

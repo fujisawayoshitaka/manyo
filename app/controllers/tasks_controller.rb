@@ -3,19 +3,26 @@ class TasksController < ApplicationController
 
   # GET /tasks
   def index
-    #
-    # if params[:sort_expired]
-    #   @tasks = Task.all.order(end_on: "DESC")
-    # elsif params[:title]
-    #   puts "タイトルパラメータ"
-    #   puts params[:title]
-    #   # binding.pry
-    #   puts "wwwwwwwwwwwwwwwwwww"
-      @tasks = Task.search_title(params[:title])
-    # else
-    #   @tasks = Task.all.order(created_at: "DESC")
-    # end
 
+      @tasks = Task.all.page(params[:page]).per(6)
+    if params[:sort_expired]
+       @tasks = Task.all.page(params[:page]).per(6).asc_end_on
+    elsif params[:sort_importance]
+      @tasks = Task.all.page(params[:page]).per(6).desc_importance
+    elsif params[:search] && params[:title].blank? && params[:status].blank?
+      puts "両方空だよ"
+    elsif params[:search] && params[:title].blank?
+       puts "タイトルが空だよ"
+      @tasks = Task.page(params[:page]).per(6).where_like_status(params[:status])
+    elsif params[:search] && params[:status].blank?
+       puts "ステータスが空だよ"
+      @tasks = Task.page(params[:page]).per(6).where_like_title(params[:title])
+    elsif params[:search]
+       puts "両方で検索"
+      @tasks = Task.page(params[:page]).per(6).where_like_status_title(params[:title],params[:status])
+    else
+      @tasks = Task.all.page(params[:page]).per(6).desc_created
+    end
   end
 
   # GET /tasks/
@@ -64,6 +71,6 @@ class TasksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def task_params
-      params.require(:task).permit(:title, :content, :end_on, :status, :search)
+      params.require(:task).permit(:title, :content, :end_on, :status, :search, :importance)
     end
 end
