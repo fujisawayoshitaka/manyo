@@ -8,4 +8,25 @@ FactoryBot.define do
     title { 'Factoryで作ったデフォルトのタイトル２' }
     content { 'Factoryで作ったデフォルトのコンテント２' }
   end
+  factory :task1, class: Task do
+    title { 'タイトル1' }
+    content { 'コンテント1' }
+    status {'未着手'}
+    importance {'低'}
+    end_on {'2020/12/12'}
+  end
+  factory :task2, class: Task do
+    title { 'タイトル２' }
+    content { 'コンテント２' }
+    status {'着手'}
+    importance{'中'}
+    end_on {'2019/12/12'}
+  end
+  factory :task3, class: Task do
+    title { 'タイトル3' }
+    content { 'コンテント3' }
+    status {'完了'}
+    importance{'高'}
+    end_on {'2018/12/12'}
+  end
 end

@@ -1,6 +1,9 @@
 class Task < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true
+  validates :status, presence: true
+  validates :importance, presence: true
+
   scope :desc_created, -> {order(created_at: :desc)}
   scope :asc_end_on, -> {order(end_on: :asc)}
   scope :desc_importance, -> {order(importance: :desc)}

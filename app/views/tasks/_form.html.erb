@@ -31,12 +31,12 @@
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.select :status, ["未着手","着手","完了"] %>
+    <%= form.select :status, ["未着手","着手","完了"], {include_blank: '未設定'} %>
   </div>
 
   <div class="field">
     <%= form.label :importance %>
-    <%= form.select :importance, ["高","中","低"] %>
+    <%= form.select :importance, ["高","中","低"], {include_blank: '未設定'} %>
   </div>
 
   <div class="actions">
