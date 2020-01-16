@@ -10,7 +10,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     # 「タスク一覧画面」や「タスク詳細画面」などそれぞれのテストケースで、before内のコードが実行される
     # 各テストで使用するタスクを1件作成する
     # 作成したタスクオブジェクトを各テストケースで呼び出せるようにインスタンス変数に代入
-    @task = FactoryBot.create(:task, title: 'task')
+    @task = FactoryBot.create(:task, title: 'task', status: '未着手')
 
   end
   describe 'タスク一覧画面' do
@@ -36,10 +36,43 @@ RSpec.describe 'タスク管理機能', type: :system do
         # expect(task_list[0]).to have_content 'new_task'
         # expect(task_list[1]).to have_content 'task'
         expect(page).to have_text /.*new_task.*task.*/m
-
         # 省略
       end
     end
+    context '複数のタスクを作成後、終了期限でソートのタグをクリックすると' do
+      it '終了期限の昇順に並んでいること' do
+        new_task = FactoryBot.create(:task, title: 'new_task', end_on:Date.today )
+        visit tasks_path
+        #task_list = all('.task_row')
+        #binding.irb
+        #byebug
+        # expect(task_list[0]).to have_content 'new_task'
+        # expect(task_list[1]).to have_content 'task'
+        click_link '終了期限でソートする'
+        expect(page).to have_text /.*task.*new_task.*/m
+        # 省略
+      end
+    end
+
+    context '複数のタスクを作成後、状態の検索を行うと' do
+      it '指定した状態を持ったタスクのみ抽出できること' do
+        new_task = FactoryBot.create(:task, title: 'new_task', end_on:Date.today, status: '着手' )
+        visit tasks_path
+        #task_list = all('.task_row')
+        #binding.irb
+        #byebug
+        # expect(task_list[0]).to have_content 'new_task'
+        # expect(task_list[1]).to have_content 'task'
+        #byebug
+        #select '着手', from: :search
+        find("option[value='未着手']").select_option
+        click_button '検索'
+        expect(page).to have_text '未着手'
+        # 省略
+      end
+    end
+
+
   end
 
   describe 'タスク登録画面' do
@@ -56,19 +89,15 @@ RSpec.describe 'タスク管理機能', type: :system do
       fill_in 'task[content]', with: 'task'
       # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
       # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
-      require "active_support/time"
-      time = Time.now
-
-      fill_in 'task[end_on]', with: time
-      byebug
       click_button '登録する'
       # clickで登録されたはずの情報が、タスク詳細ページに表示されているかを確認する
       # （タスクが登録されたらタスク詳細画面に遷移されるという前提）
       # 5.タスク詳細ページに、テストコードで作成したはずのデータ（記述）がhave_contentされているか（含まれているか）を確認（期待）するコードを書く
-      expect(page).to have_content 'task'&& time
+      expect(page).to have_content 'task'
       end
     end
   end
+
 
   describe 'タスク詳細画面' do
      context '任意のタスク詳細画面に遷移した場合' do
