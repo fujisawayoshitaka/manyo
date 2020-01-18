@@ -11,5 +11,5 @@ class Task < ApplicationRecord
   scope :where_like_title, -> (title) {where(['title LIKE ?', "%#{title}%"])}
   scope :where_like_status_title, -> (title, status) {where(['title LIKE ? AND status LIKE ?', "%#{title}%", "#{status}"])}
   enum importance: {低: 0,中: 1,高: 2,}
-
+  belongs_to :user
 end
