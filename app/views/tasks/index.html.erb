@@ -1,6 +1,3 @@
-<p id="notice"><%= notice %></p>
-
-
 
 
 <%= form_with(method: :get, url: tasks_path, local: true) do |form| %>
@@ -29,6 +26,7 @@
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
+        <% if current_user.id == task.user.id %>
         <td><%= task.title %></td>
         <td><%= task.content %></td>
         <td><%= task.end_on %></td>
@@ -37,6 +35,7 @@
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
         <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
 

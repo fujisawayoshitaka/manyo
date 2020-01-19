@@ -8,11 +8,18 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
+    if current_user.id != @user.id
+      redirect_to tasks_path, notice: '他ユーザーは閲覧できません'
+    end
   end
 
   # GET /users/new
   def new
-    @user = User.new
+    if logged_in?
+      redirect_to tasks_path, notice: 'login中です'
+    else
+      @user = User.new
+    end
   end
 
   # GET /users/1/edit
@@ -22,12 +29,15 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new(user_params)
-
     if @user.save
+      session[:user_id] = @user.id
+      #log_in @user
+      #binding.pry
       redirect_to @user, notice: 'User was successfully created.'
     else
       render :new
     end
+    #log_in @user
   end
 
   # PATCH/PUT /users/1
