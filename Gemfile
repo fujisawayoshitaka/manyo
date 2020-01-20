@@ -13,7 +13,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'kaminari', '~> 0.17.0'
 gem 'faker'
 gem 'bcrypt', '3.1.11'
-
+gem 'rails-i18n', '~> 5.1'
+gem 'rspec-rails'
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
