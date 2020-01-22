@@ -1,4 +1,9 @@
+#require "rubygems"
+#require "bundler/setup"
+require 'rspec'
 require 'rails_helper'
+
+
 
 RSpec.describe 'タスク管理機能', type: :system do
   #background do

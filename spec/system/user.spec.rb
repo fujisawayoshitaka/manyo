@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'rails_helper'
 
 RSpec.describe 'ステップ４', type: :system do
@@ -26,7 +27,6 @@ RSpec.describe 'ステップ４', type: :system do
         expect(page).to have_content 'yui'
         expect(page).to have_content 'yui@gmail.com'
         expect(page).to have_content 'Logout'
-      end
     end
  end
     context 'ログイン中でユーザー登録のパスを飛ばすと' do
@@ -65,5 +65,56 @@ RSpec.describe 'ステップ４', type: :system do
       end
     end
 
+    end
+
+    describe 'アドミン機能のテスト' do
+      context "ログインユーザーが管理者権限を持ってなければユーザー管理画面に遷移すると" do
+        it "タスク一覧画面に遷移し管理者権限がないと通知される" do
+          click_link 'Logout'
+          visit new_session_path
+          fill_in "email", with: "2@gmail.com"
+          fill_in "password", with: "yoshitaka2"
+          click_button "Log in"
+          visit tasks_path
+          click_link 'user管理ページに遷移する'
+          expect(page).to have_text /.*管理者権限がありません.*/m
+    　  end
+    end
+    context "管理者権限を持ったユーザーが新規ユーザーを作成すると" do
+      it "作成されたユーザーが表示される" do
+        visit tasks_path
+        click_link 'user管理ページに遷移する'
+
+  　  end
+  end
+
+  context "管理者権限を持ったユーザーが新規ユーザーを作成すると" do
+    it "作成されたユーザーが表示され削除ボタンを押すと" do
+      visit new_admin_user_path
+      fill_in 'name', with: "yui"
+      fill_in 'email', with: "yui@gmail.com"
+      fill_in 'password', with: "password"
+      fill_in 'password_confirmation', with: "password"
+      find("option[value='有効']").select_option
+      click_button "Create User"
+      expect(page).to have_content 'yui'
+      expect(page).to have_content 'yui@gmail.com'
+　  end
+end
+
+context "管理者権限を持ったユーザーが他ユーザーを編集すると" do
+  it "編集されたユーザーが表示される" do
+    visit tasks_path
+    click_link 'user管理ページに遷移する'
+
+　  end
+end
+
+
+
+
+
 
   end
+
+end

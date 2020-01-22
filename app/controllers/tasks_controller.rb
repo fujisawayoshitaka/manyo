@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
   # GET /tasks
   def index
@@ -31,6 +31,11 @@ class TasksController < ApplicationController
 
   # GET /tasks/
   def show
+    if logged_in?
+        @task = Task.find(params[:id])
+    else
+        redirect_to new_session_path , notice: 'loginしてください。'
+    end
   end
 
   # GET /tasks/new
@@ -40,6 +45,11 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    if logged_in?
+        @task = Task.find(params[:id])
+    else
+        redirect_to new_session_path , notice: 'loginしてください。'
+    end
   end
 
   # POST /tasks
