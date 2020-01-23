@@ -3,7 +3,6 @@ class Task < ApplicationRecord
   validates :content, presence: true
   validates :status, presence: true
   validates :importance, presence: true
-
   scope :desc_created, -> {order(created_at: :desc)}
   scope :asc_end_on, -> {order(end_on: :asc)}
   scope :desc_importance, -> {order(importance: :desc)}
@@ -12,4 +11,6 @@ class Task < ApplicationRecord
   scope :where_like_status_title, -> (title, status) {where(['title LIKE ? AND status LIKE ?', "%#{title}%", "#{status}"])}
   enum importance: {低: 0,中: 1,高: 2,}
   belongs_to :user, optional: true
+  has_many :task_labels, dependent: :destroy, foreign_key: 'task_id'
+  has_many :labels, through: :task_labels, source: :label
 end

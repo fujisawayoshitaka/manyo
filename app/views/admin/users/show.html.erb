@@ -35,5 +35,8 @@
 </div>
 
 
-
+<%= link_to 'userを編集する',edit_admin_user_path(@user) %>
+<br>
+<%= link_to 'userを削除する',admin_user_path(@user), method: :delete%>
+<br>
 <%= link_to 'userを作成する', new_admin_user_path %>

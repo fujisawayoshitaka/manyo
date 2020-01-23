@@ -8,3 +8,8 @@
                password_confirmation: password,
                )
 end
+
+20.times do |i|
+    Label.create!(title: "sample#{i + 1}")
+  end
+  
