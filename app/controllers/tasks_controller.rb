@@ -6,13 +6,16 @@ class TasksController < ApplicationController
     if logged_in?
       @tasks = Task.all.page(params[:page]).per(6)
       if params[:sort_expired]
-         @tasks = Task.all.page(params[:page]).per(6).asc_end_on
+        @tasks = Task.all.page(params[:page]).per(6).asc_end_on
       elsif params[:sort_importance]
         @tasks = Task.all.page(params[:page]).per(6).desc_importance
+      elsif params[:search] && params[:title].blank? && params[:status].blank? && params[:label_search].blank?
+        puts "3つとも空だよ"
       elsif params[:search] && params[:title].blank? && params[:status].blank?
-        puts "両方空だよ"
+        puts "２つ空だよ"
+        @tasks = Task.page(params[:page]).per(6).label_name_search(params[:label_search])
       elsif params[:search] && params[:title].blank?
-         puts "タイトルが空だよ"
+        puts "タイトルが空だよ"
         @tasks = Task.page(params[:page]).per(6).where_like_status(params[:status])
       elsif params[:search] && params[:status].blank?
          puts "ステータスが空だよ"

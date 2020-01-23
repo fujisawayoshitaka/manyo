@@ -6,6 +6,8 @@
     <%= form.text_field :title %>
     <%= form.label :status_search, "状態検索" %>
     <%= form.select :status, ["未着手","着手","完了"], include_blank: "タスクの状態" %>
+    <%= form.label :label_name, 'ラベル検索' %>
+    <%= form.search_field :label_search %>
 　　 <%= form.hidden_field :search, value: 'true' %>
     <%= form.submit "検索"%>
   </div>
@@ -28,7 +30,6 @@
       <th>Deadline</th>
       <th>State</th>
       <th>Importance</th>
-      <th>label</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -42,9 +43,6 @@
         <td><%= task.end_on %></td>
         <td><%= task.status %></td>
         <td><%= task.importance %></td>
-        <td><% task.task_labels.each do |task_label| %>
-        <%= task_label.label.title %>
-        <% end %></td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
         <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
