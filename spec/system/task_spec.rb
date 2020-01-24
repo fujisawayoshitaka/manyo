@@ -15,6 +15,8 @@ RSpec.describe 'タスク管理機能', type: :system do
     # 「タスク一覧画面」や「タスク詳細画面」などそれぞれのテストケースで、before内のコードが実行される
     # 各テストで使用するタスクを1件作成する
     # 作成したタスクオブジェクトを各テストケースで呼び出せるようにインスタンス変数に代入
+    FactoryBot.create(:label)
+    FactoryBot.create(:label2)
     FactoryBot.create(:user)
     visit new_session_path
     fill_in 'Email', with: '1@gmail.com'
@@ -189,4 +191,46 @@ RSpec.describe 'タスク管理機能', type: :system do
        end
      end
   end
+
+  describe 'ラベル機能のテスト' do
+     context 'ラベルを付与したタスクを作成し' do
+       it '該当タスクの詳細ページに遷移するとラベルの内容が記述されている' do
+         visit new_task_path
+
+         fill_in 'task_title', with: '1'
+         # 3.ここに「タスク詳細」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
+         fill_in 'task_content', with: '1'
+         find("option[value='未着手']").select_option
+         # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
+         # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
+         check ("sample1")
+         byebug
+         click_button '登録する'
+         visit tasks_path
+         click_link 'Show'
+         expect(page).to have_content 'sample1'
+       end
+     end
+
+     context 'ラベルを付与したタスクを作成し' do
+       it '該当タスクの詳細ページに遷移するとラベルの内容が記述されている' do
+         visit new_task_path
+         fill_in 'task_title', with: '1'
+         # 3.ここに「タスク詳細」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
+         fill_in 'task_content', with: '1'
+         find("option[value='未着手']").select_option
+         # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
+         # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
+         click_button '登録する'
+         visit tasks_path
+
+         click_link 'Show'
+         expect(page).to have_content 'task'
+       end
+     end
+
+
+
+  end
+
 end

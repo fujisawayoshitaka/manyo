@@ -12,16 +12,16 @@ class TasksController < ApplicationController
       elsif params[:search] && params[:title].blank? && params[:status].blank? && params[:label_search].blank?
         puts "3つとも空だよ"
       elsif params[:search] && params[:title].blank? && params[:status].blank?
-        puts "２つ空だよ"
+        puts "label検索だよ"
         @tasks = Task.page(params[:page]).per(6).label_name_search(params[:label_search])
       elsif params[:search] && params[:title].blank?
-        puts "タイトルが空だよ"
+        puts "状態検索だよ"
         @tasks = Task.page(params[:page]).per(6).where_like_status(params[:status])
       elsif params[:search] && params[:status].blank?
-         puts "ステータスが空だよ"
+         puts "タイトル検索だよ"
         @tasks = Task.page(params[:page]).per(6).where_like_title(params[:title])
       elsif params[:search]
-         puts "両方で検索"
+         puts "タイトルと状態で検索だよ"
         @tasks = Task.page(params[:page]).per(6).where_like_status_title(params[:title],params[:status])
       else
         @tasks = Task.all.page(params[:page]).per(6).desc_created
