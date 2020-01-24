@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:update, :destroy]
-  before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+
   # GET /tasks
   def index
     if logged_in?
@@ -34,10 +35,11 @@ class TasksController < ApplicationController
 
   # GET /tasks/
   def show
+    #user_id = Task.find(params[:id]).user.id
     if logged_in?
         @task = Task.find(params[:id])
     else
-        redirect_to new_session_path , notice: 'loginしてください。'
+        redirect_to :back , notice: 'loginしてください。'
     end
   end
 
@@ -93,9 +95,11 @@ class TasksController < ApplicationController
     end
 
     def correct_user
-      task = Task.find(params[:id])
-      if current_user.id != task.user.id
+      @task = Task.find(params[:id])
+      if current_user.id != @task.user.id
         redirect_to new_session_path , notice: 'loginしてください。'
       end
     end
+
+
 end

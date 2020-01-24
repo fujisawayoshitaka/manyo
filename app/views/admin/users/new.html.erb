@@ -5,6 +5,36 @@
 <br>
 <h1>Create user</h1>
 
-<%= render 'form', user: @user %>
+<%= form_with model: [:admin,@user], local: true do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-<%= link_to 'Back', users_path %>
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+
+  <%= form.label :email %>
+  <%= form.email_field :email %>
+
+  <%= form.label :password %>
+  <%= form.password_field :password %>
+
+  <%= form.label :password_confirmation %>
+  <%= form.password_field :password_confirmation %>
+
+  <%= form.label :admin %>
+  <%= form.select :admin, [["無効", false], ["有効", true]] %>
+  <br>
+  <%= form.submit "Create User" %>
+<% end %>
+
+
+
+<%= link_to 'Back', admin_users_path %>

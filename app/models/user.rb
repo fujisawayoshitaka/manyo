@@ -7,7 +7,7 @@ class User < ApplicationRecord
   #before_update :admin_user_present
   #before_destroy :admin_user_present
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, on: :create
   has_many :tasks, dependent: :destroy
    #def admin_user_present
     # raise ActiveRecord::Rollback if User.where(admin: true).count == 1
