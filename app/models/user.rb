@@ -12,12 +12,12 @@ class User < ApplicationRecord
    #def admin_user_present
     # raise ActiveRecord::Rollback if User.where(admin: true).count == 1
    #end
-   before_destroy do
-     throw(:abort) if User.where(admin: true).count <= 1 && self.admin?
-   end
+   #before_destroy do
+    # throw(:abort) if User.where(admin: true).count <= 1 && self.admin?
+   #end
 
-   before_update do
-    throw(:abort) if User.where(admin: true).count <= 1 && self.admin?
-   end
+   #before_update do
+    #throw(:abort) if User.where(admin: true).count <= 1 && self.admin?
+   #end
 
 end
