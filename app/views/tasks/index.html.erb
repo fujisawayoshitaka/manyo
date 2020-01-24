@@ -1,17 +1,27 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Tasks</h1>
-<%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
 
-<%= form_with(method: :get, url: tasks_path) do |form| %>
-    <%#= form.label :title_search, "タイトル検索" %>
+<%= form_with(method: :get, url: tasks_path, local: true) do |form| %>
+  <div style="display:inline-flex">
+    <%= form.label :title_search, "タイトル検索" %>
     <%= form.text_field :title %>
-    <%#= form.label :status_search, "状態検索" %>
-    <%#= form.select :status, ["未着手","着手","完了"] %>
-　　 <%#= form.hidden_field :search, value: 'true' %>
+    <%= form.label :status_search, "状態検索" %>
+    <%= form.select :status, ["未着手","着手","完了"], include_blank: "タスクの状態" %>
+    <%= form.label :label_name, 'ラベル検索' %>
+    <%= form.search_field :label_search %>
+　　 <%= form.hidden_field :search, value: 'true' %>
     <%= form.submit "検索"%>
+  </div>
 <% end %>
 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div>
 <table>
   <thead>
     <tr>
@@ -19,6 +29,7 @@
       <th>Content</th>
       <th>Deadline</th>
       <th>State</th>
+      <th>Importance</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -26,18 +37,29 @@
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
+        <% if current_user.id == task.user.id %>
         <td><%= task.title %></td>
         <td><%= task.content %></td>
         <td><%= task.end_on %></td>
         <td><%= task.status %></td>
+        <td><%= task.importance %></td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
         <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
+
   </tbody>
 </table>
-
+</div>
 <br>
-
-<%= link_to 'New Task', new_task_path %>
+<%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
+<br>
+<%= link_to "重要度でソートする", tasks_path(sort_importance: "true") %>
+<br>
+<%= link_to 'taskを新規作成する', new_task_path %>
+<br>
+<%= link_to 'user管理ページに遷移する', admin_users_path %>
+<br>
+<%= paginate @tasks %>

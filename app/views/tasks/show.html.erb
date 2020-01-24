@@ -1,5 +1,12 @@
-<p id="notice"><%= notice %></p>
-<p>show</p>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p>詳細ページ</p>
 
 <p>
   <strong>title:</strong>
@@ -21,6 +28,17 @@
   <%= @task.status %>
 </p>
 
+<p>
+  <strong>Importance:</strong>
+  <%= @task.importance %>
+</p>
+
+<p>
+  <strong>Label:</strong>
+<% @task.labels.each do |task_label| %>
+  <%= task_label.title %>
+<% end %>
+</p>
 
 
 <%= link_to 'Edit', edit_task_path(@task) %> |
