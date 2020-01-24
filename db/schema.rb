@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2020_01_23_071504) do
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "end_on", default: "2020-01-22", null: false
+    t.date "end_on", default: "2020-01-24", null: false
     t.string "status"
     t.integer "importance", default: 0
     t.bigint "user_id"

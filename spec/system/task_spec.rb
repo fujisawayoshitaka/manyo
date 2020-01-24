@@ -201,31 +201,51 @@ RSpec.describe 'タスク管理機能', type: :system do
          # 3.ここに「タスク詳細」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
          fill_in 'task_content', with: '1'
          find("option[value='未着手']").select_option
+         checkbox = find('#task_label_ids_1')
+         check 'task_label_ids_1'
          # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
          # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
-         check ("sample1")
-         byebug
+         # sleep(1)
+         # find("option[value='sample1']")
+         # check('sample1')
+         # byebug
          click_button '登録する'
          visit tasks_path
          click_link 'Show'
+         #byebug
          expect(page).to have_content 'sample1'
        end
      end
 
-     context 'ラベルを付与したタスクを作成し' do
-       it '該当タスクの詳細ページに遷移するとラベルの内容が記述されている' do
+     context 'ラベル検索すると' do
+       it 'その検索したラベルを持っている該当タスクのみ表示される' do
          visit new_task_path
-         fill_in 'task_title', with: '1'
-         # 3.ここに「タスク詳細」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
-         fill_in 'task_content', with: '1'
+         fill_in 'task_title', with: 'sample1'
+         fill_in 'task_content', with: 'sample1'
          find("option[value='未着手']").select_option
-         # 「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）
-         # 4.「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書く
+         checkbox = find('#task_label_ids_1')
+         check 'task_label_ids_1'
+         click_button '登録する'
+         visit new_task_path
+         fill_in 'task_title', with: 'sample2'
+         fill_in 'task_content', with: 'sample2'
+         find("option[value='未着手']").select_option
+         checkbox = find('#task_label_ids_2')
+         check 'task_label_ids_2'
          click_button '登録する'
          visit tasks_path
-
-         click_link 'Show'
-         expect(page).to have_content 'task'
+         #byebug
+         #task_list = all('.task_row')
+         #binding.irb
+         #byebug
+         # expect(task_list[0]).to have_content 'new_task'
+         # expect(task_list[1]).to have_content 'task'
+         #byebug
+         #select '着手', from: :search
+         fill_in 'label_search', with: 'sample2'
+         click_button '検索'
+         expect(page).not_to have_content 'sample1'
+         expect(page).to have_content 'sample2'
        end
      end
 
